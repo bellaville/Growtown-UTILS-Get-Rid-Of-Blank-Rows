@@ -40,10 +40,21 @@ function removeBlankRows(sheetName) {
 
 function runAllSheets(sheetNames) {
 
-    Logger.log(sheetNames);
+    try {
 
-    for (let i = 0; i < sheetNames.length; i++) {
-        removeBlankRows(sheetNames[i]);
+        Logger.log(sheetNames);
+
+        for (let i = 0; i < sheetNames.length; i++) {
+            removeBlankRows(sheetNames[i]);
+        }
+
+    } catch (error) {
+        MailApp.sendEmail({
+            to: "bella@growtown.ca",
+            subject: "WORK LOG APP ALERT: Deleting Blank Rows Failed",
+            body: "Error: " + error.toString()
+        });
+        throw error;
     }
 }
 
